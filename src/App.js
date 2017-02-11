@@ -8,8 +8,8 @@ class App extends Component {
     // const size = 200;
     return (
       <div className="app">
-        <ChessBoard size={100} />
-        <ChessBoard size={480} />
+        <ChessBoard size={100} theme="theme-green" />
+        <ChessBoard size={480} theme="theme-green" />
       </div>
     );
   }

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import * as PIECES from './pieces';
 
 import './ChessBoard.css';
+import './themes/green.css';
 import './pieces.css';
 
 const THRESHOLD_SIZE = 250;
@@ -9,7 +10,7 @@ const THRESHOLD_SIZE = 250;
 class ChessBoard extends Component {
 
   render() {
-    const { size } = this.props;
+    const { size, theme } = this.props;
     const gutterIdeal = size / 17;
     const gutter = (gutterIdeal < 12) ? 0 : gutterIdeal;
     const square = (size - gutter) / 8;
@@ -18,7 +19,7 @@ class ChessBoard extends Component {
       height: `${size}px`,
     };
     const boardSize = size >= THRESHOLD_SIZE ? 'large' : 'small';
-    const className = `chess-board ${boardSize}`;
+    const className = `chess-board ${boardSize} ${theme}`;
     return (
       <div className={className} style={style}>
         <table>
@@ -102,10 +103,12 @@ class ChessBoard extends Component {
 
 ChessBoard.propTypes = {
   size: PropTypes.number,
+  theme: PropTypes.string,
 };
 
 ChessBoard.defaultProps = {
   size: 480,
+  theme: 'theme-green',
 };
 
 export default ChessBoard;

@@ -1,6 +1,6 @@
 div.chess-board {
   position: relative;
-  background-color: #f5f5dc;
+  background-color: #fff;
 }
 
 div.chess-board.large {
@@ -8,7 +8,7 @@ div.chess-board.large {
 }
 
 div.chess-board.small {
-  border: 0;
+  /*border: 0;*/
 }
 
 div.chess-board table {
@@ -19,14 +19,10 @@ div.chess-board table, td {
   box-sizing: border-box;
 }
 
-div.chess-board td.grid-number {
-  text-align: center;
-  color: #008000;
-}
-
+div.chess-board td.grid-number,
 div.chess-board td.grid-letter {
   text-align: center;
-  color: #008000;
+  color: #000;
 }
 
 div.chess-board td.grid-empty {
@@ -34,15 +30,15 @@ div.chess-board td.grid-empty {
 }
 
 div.chess-board.small td.board-square {
-  border: 1px solid #008000;
+  border: 1px solid #000;
 }
 
 div.chess-board.large td.board-square {
-  border: 2px solid #008000;
+  border: 2px solid #000;
 }
 
 div.chess-board td.board-square.dark {
-  background-color: #008000;
+  background-color: #000;
 }
 
 div.chess-board td.board-square.light {
