@@ -1,0 +1,50 @@
+div.chess-board {
+  position: relative;
+  background-color: #f5f5dc;
+}
+
+div.chess-board.large {
+  /*border: 1px dotted #008000;*/
+}
+
+div.chess-board.small {
+  border: 0;
+}
+
+div.chess-board table {
+  border-collapse: collapse;
+}
+
+div.chess-board table, td {
+  box-sizing: border-box;
+}
+
+div.chess-board td.grid-number {
+  text-align: center;
+  color: #008000;
+}
+
+div.chess-board td.grid-letter {
+  text-align: center;
+  color: #008000;
+}
+
+div.chess-board td.grid-empty {
+  /* */
+}
+
+div.chess-board.small td.board-square {
+  border: 1px solid #008000;
+}
+
+div.chess-board.large td.board-square {
+  border: 2px solid #008000;
+}
+
+div.chess-board td.board-square.dark {
+  background-color: #008000;
+}
+
+div.chess-board td.board-square.light {
+  /*background-color: #f5f5dc;*/
+}

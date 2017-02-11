@@ -11,3 +11,10 @@
 .black-bishop::after  { content: "\265D"; }
 .black-knight::after  { content: "\265E"; }
 .black-pawn::after    { content: "\265F"; }
+
+span.chess-piece {
+  display: inline-block;
+  font-size: 3rem;
+  margin: 0.2rem;
+  font-family: sans-serif;
+}
