@@ -3,14 +3,6 @@ div.chess-board {
   background-color: #fff;
 }
 
-div.chess-board.large {
-  /*border: 1px dotted #008000;*/
-}
-
-div.chess-board.small {
-  /*border: 0;*/
-}
-
 div.chess-board table {
   border-collapse: collapse;
 }
@@ -22,25 +14,30 @@ div.chess-board table, td {
 div.chess-board td.grid-number,
 div.chess-board td.grid-letter {
   text-align: center;
-  color: #000;
+  color: #aaa;
 }
 
 div.chess-board td.grid-empty {
   /* */
 }
 
-div.chess-board.small td.board-square {
-  border: 1px solid #000;
+div.chess-board td.board-square {
+  text-align: center;
+  border: 0.15em solid #aaa;
 }
 
-div.chess-board.large td.board-square {
-  border: 2px solid #000;
+div.chess-board td.dark-square {
+  background-color: #aaa;
 }
 
-div.chess-board td.board-square.dark {
-  background-color: #000;
-}
-
-div.chess-board td.board-square.light {
+div.chess-board td.light-square {
   /*background-color: #f5f5dc;*/
+}
+
+div.chess-board td.board-square.dark-square.highlight {
+  background-color: #B0C4DE;
+}
+
+div.chess-board td.board-square.light-square.highlight {
+  background-color: #FFFFE0;
 }

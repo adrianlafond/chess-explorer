@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import * as PIECES from './pieces';
 
 import './ChessBoard.css';
-import './themes/green.css';
+import './themes/tournament.css';
 import './pieces.css';
 
-const THRESHOLD_SIZE = 250;
+const LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const NUMBERS = [8, 7, 6, 5, 4, 3, 2, 1];
 
 class ChessBoard extends Component {
 
@@ -18,8 +19,7 @@ class ChessBoard extends Component {
       width: `${size}px`,
       height: `${size}px`,
     };
-    const boardSize = size >= THRESHOLD_SIZE ? 'large' : 'small';
-    const className = `chess-board ${boardSize} ${theme}`;
+    const className = `chess-board ${theme}`;
     return (
       <div className={className} style={style}>
         <table>
@@ -29,9 +29,6 @@ class ChessBoard extends Component {
         </table>
       </div>
     );
-    // {this.renderGridNumbers(square, gutter)}
-    // <p className="grid-label">a</p>
-    //       {this.renderPieces()}
   }
 
   renderRows(gutter, square) {
@@ -42,7 +39,7 @@ class ChessBoard extends Component {
       return (
         <tr key={index} style={style}>
           {this.renderNumberGutter(index, gutter, square)}
-          {this.renderSquares(square, index % 2 === 0)}
+          {this.renderSquares(square, index)}
         </tr>
       );
     });
@@ -59,45 +56,52 @@ class ChessBoard extends Component {
       fontSize: `${gutter * 0.5}px`,
       // paddingRight: `${gutter * 0.2}px`,
     };
-    return (index < 8) ?
-      <td className="grid-number" style={style}>{8 - index}</td> :
-      <td className="grid-empty" style={style}></td>;
+    return <td className="grid-number" style={style}>{NUMBERS[index]}</td>;
   }
 
   renderLetterGutter(gutter, square) {
     const styleTr = { height: `${gutter}px` };
     const styleLetter = { fontSize: `${gutter * 0.5}px` };
+    const td = LETTERS.map(letter => {
+      return (
+        <td className="grid-letter" style={styleLetter} key={letter}>
+          {letter}
+        </td>
+      );
+    });
     return (
       <tr key="letters" style={styleTr}>
         <td className="grid-empty"></td>
-        <td className="grid-letter" style={styleLetter}>a</td>
-        <td className="grid-letter" style={styleLetter}>b</td>
-        <td className="grid-letter" style={styleLetter}>c</td>
-        <td className="grid-letter" style={styleLetter}>d</td>
-        <td className="grid-letter" style={styleLetter}>e</td>
-        <td className="grid-letter" style={styleLetter}>f</td>
-        <td className="grid-letter" style={styleLetter}>g</td>
-        <td className="grid-letter" style={styleLetter}>h</td>
+        {td}
       </tr>
     );
   }
 
-  renderSquares(square, light) {
+  renderSquares(square, row) {
     const style = { width: `${square}px` };
-    let color = light ? 'light' : 'dark';
+    let color = (row % 2 === 0) ? 'light' : 'dark';
     return Array(8).fill().map((blank, index) => {
-      const className = `board-square ${color}`;
+      const letter = LETTERS[index];
+      const number = NUMBERS[row];
+      const position = `${letter}${number}`;
+      const highlight = (position === 'a8' || position === 'b8') ? 'highlight' : null;
+      const className = `board-square ${color}-square ${position} ${highlight}`;
+      const side = (color === 'light') ? 'white' : 'black';
       color = (color === 'light') ? 'dark' : 'light';
-      return <td className={className} style={style} key={index}></td>;
+      return (
+        <td className={className} style={style} key={index}>
+          <span className="highlight"></span>
+          {this.renderPiece(`${side}-king`, square)}
+        </td>
+      );
     });
   }
 
-  renderPieces() {
-    const pieces = Object.keys(PIECES).map((key, index) => {
-      const className = `${PIECES[key]} chess-piece`;
-      return <span key={index} className={className} />;
-    });
-    return (<div>{pieces}</div>);
+  renderPiece(piece, square) {
+    const style = { fontSize: `${square * 0.8}px` };
+    return (
+      <span className={`chess-piece ${piece}`} style={style} />
+    );
   }
 }
 
@@ -108,7 +112,7 @@ ChessBoard.propTypes = {
 
 ChessBoard.defaultProps = {
   size: 480,
-  theme: 'theme-green',
+  theme: null,
 };
 
 export default ChessBoard;
