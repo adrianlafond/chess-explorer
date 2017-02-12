@@ -1,0 +1,53 @@
+import Immutable from 'seamless-immutable';
+import {
+  WHITE_KING,
+  WHITE_QUEEN,
+  WHITE_ROOK,
+  WHITE_BISHOP,
+  WHITE_KNIGHT,
+  WHITE_PAWN,
+  BLACK_KING,
+  BLACK_QUEEN,
+  BLACK_ROOK,
+  BLACK_BISHOP,
+  BLACK_KNIGHT,
+  BLACK_PAWN,
+} from './pieces';
+import board from './board';
+
+const standard = {
+  a1: { piece: WHITE_ROOK },
+  b1: { piece: WHITE_KNIGHT },
+  c1: { piece: WHITE_BISHOP },
+  d1: { piece: WHITE_QUEEN },
+  e1: { piece: WHITE_KING },
+  f1: { piece: WHITE_BISHOP },
+  g1: { piece: WHITE_KNIGHT },
+  h1: { piece: WHITE_ROOK },
+  a2: { piece: WHITE_PAWN },
+  b2: { piece: WHITE_PAWN },
+  c2: { piece: WHITE_PAWN },
+  d2: { piece: WHITE_PAWN },
+  e2: { piece: WHITE_PAWN },
+  f2: { piece: WHITE_PAWN },
+  g2: { piece: WHITE_PAWN },
+  h2: { piece: WHITE_PAWN },
+  a7: { piece: BLACK_PAWN },
+  b7: { piece: BLACK_PAWN },
+  c7: { piece: BLACK_PAWN },
+  d7: { piece: BLACK_PAWN },
+  e7: { piece: BLACK_PAWN },
+  f7: { piece: BLACK_PAWN },
+  g7: { piece: BLACK_PAWN },
+  h7: { piece: BLACK_PAWN },
+  a8: { piece: BLACK_ROOK },
+  b8: { piece: BLACK_KNIGHT },
+  c8: { piece: BLACK_BISHOP },
+  d8: { piece: BLACK_QUEEN },
+  e8: { piece: BLACK_KING },
+  f8: { piece: BLACK_BISHOP },
+  g8: { piece: BLACK_KNIGHT },
+  h8: { piece: BLACK_ROOK },
+};
+
+export default Immutable.merge(board, standard, { deep: true });

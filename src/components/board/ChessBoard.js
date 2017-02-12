@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import * as PIECES from './pieces';
-
+import board from '../../chess/board';
 import './ChessBoard.css';
 import './themes/tournament.css';
-import './pieces.css';
 
 const LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const NUMBERS = [8, 7, 6, 5, 4, 3, 2, 1];
@@ -33,9 +31,7 @@ class ChessBoard extends Component {
 
   renderRows(gutter, square) {
     const rows = Array(8).fill().map((blank, index) => {
-      const style = {
-        height: `${(index < 8) ? square : gutter}px`
-      };
+      const style = { height: `${square}px` };
       return (
         <tr key={index} style={style}>
           {this.renderNumberGutter(index, gutter, square)}
@@ -54,7 +50,6 @@ class ChessBoard extends Component {
     const style = {
       width: `${gutter}px`,
       fontSize: `${gutter * 0.5}px`,
-      // paddingRight: `${gutter * 0.2}px`,
     };
     return <td className="grid-number" style={style}>{NUMBERS[index]}</td>;
   }
@@ -77,24 +72,25 @@ class ChessBoard extends Component {
     );
   }
 
-  renderSquares(square, row) {
+  renderSquares(square, rowIndex) {
     const style = { width: `${square}px` };
-    let color = (row % 2 === 0) ? 'light' : 'dark';
-    return Array(8).fill().map((blank, index) => {
-      const letter = LETTERS[index];
-      const number = NUMBERS[row];
-      const position = `${letter}${number}`;
-      const highlight = (position === 'a8' || position === 'b8') ? 'highlight' : null;
-      const className = `board-square ${color}-square ${position} ${highlight}`;
-      const side = (color === 'light') ? 'white' : 'black';
-      color = (color === 'light') ? 'dark' : 'light';
-      return (
-        <td className={className} style={style} key={index}>
+    const row = 8 - rowIndex;
+    const position = this.props.position;
+    const td = [];
+    for (let i = 0; i < 8; i++) {
+      const block = `${LETTERS[i]}${row}`;
+      const highlight = (block === 'a8' || block === 'b8') ? 'highlight' : null;
+      const color = position[block].light ? 'light' : 'dark';
+      const className = `board-square ${color}-square ${block} ${highlight}`;
+      const piece = position[block].piece;
+      td.push(
+        <td className={className} style={style} key={block}>
           <span className="highlight"></span>
-          {this.renderPiece(`${side}-king`, square)}
+          {this.renderPiece(piece, square)}
         </td>
       );
-    });
+    }
+    return td;
   }
 
   renderPiece(piece, square) {
@@ -108,11 +104,13 @@ class ChessBoard extends Component {
 ChessBoard.propTypes = {
   size: PropTypes.number,
   theme: PropTypes.string,
+  position: PropTypes.object
 };
 
 ChessBoard.defaultProps = {
   size: 480,
   theme: null,
+  position: board
 };
 
 export default ChessBoard;
