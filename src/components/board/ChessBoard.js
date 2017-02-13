@@ -79,7 +79,7 @@ class ChessBoard extends Component {
     const td = [];
     for (let i = 0; i < 8; i++) {
       const block = `${LETTERS[i]}${row}`;
-      const highlight = (block === 'a8' || block === 'b8') ? 'highlight' : null;
+      const highlight = (block === 'a8' || block === 'b8' || block === 'a1' || block === 'b1') ? 'highlight' : null;
       const color = position[block].light ? 'light' : 'dark';
       const className = `board-square ${color}-square ${block} ${highlight}`;
       const piece = position[block].piece;

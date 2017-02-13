@@ -14,7 +14,7 @@ div.chess-board table, td {
 div.chess-board td.grid-number,
 div.chess-board td.grid-letter {
   text-align: center;
-  color: #aaa;
+  color: #ccc;
 }
 
 div.chess-board td.grid-empty {
@@ -23,11 +23,11 @@ div.chess-board td.grid-empty {
 
 div.chess-board td.board-square {
   text-align: center;
-  border: 0.15em solid #aaa;
+  border: 0.15em solid #ccc;
 }
 
 div.chess-board td.dark-square {
-  background-color: #aaa;
+  background-color: #ccc;
 }
 
 div.chess-board td.light-square {
@@ -35,9 +35,9 @@ div.chess-board td.light-square {
 }
 
 div.chess-board td.board-square.dark-square.highlight {
-  background-color: #B0C4DE;
+  background-color: #9cf;
 }
 
 div.chess-board td.board-square.light-square.highlight {
-  background-color: #FFFFE0;
+  background-color: #ff0;
 }

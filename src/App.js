@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     const board = {
       size: 480,
-      theme: 'theme-tournament',
+      // theme: 'theme-tournament',
       position: positionStandard,
     };
     return (

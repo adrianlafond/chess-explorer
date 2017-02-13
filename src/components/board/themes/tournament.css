@@ -19,10 +19,10 @@ div.chess-board.theme-tournament td.light-square {
   /*background-color: #FFFAF0;*/
 }
 
-div.chess-board td.board-square.dark-square.highlight {
+div.chess-board.theme-tournament td.board-square.dark-square.highlight {
   background-color: #3CB371;
 }
 
-div.chess-board td.board-square.light-square.highlight {
+div.chess-board.theme-tournament td.board-square.light-square.highlight {
   background-color: #F0E68C;
 }
