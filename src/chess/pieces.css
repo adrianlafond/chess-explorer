@@ -13,6 +13,6 @@
 .black-pawn::after    { content: "\265F"; }
 
 span.chess-piece {
-  display: inline-block;
+  display: block;
   font-family: sans-serif;
 }
