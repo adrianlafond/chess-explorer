@@ -8,7 +8,7 @@ class App extends Component {
 
   render() {
     const board = {
-      size: 480,
+      size: 540,
       // theme: 'theme-tournament',
       position: positionStandard,
     };

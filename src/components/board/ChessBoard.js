@@ -85,15 +85,20 @@ class ChessBoard extends Component {
     const td = [];
     for (let i = 0; i < 8; i++) {
       const block = `${LETTERS[i]}${row}`;
-      const active = (block === 'a8' || block === 'b8' || block === 'a1' || block === 'b1') ? 'active' : '';
-      const highlight = (block === 'b7' || block === 'c7' || block === 'b2' || block === 'c2') ? 'highlight' : '';
+      const active = '';
+      const highlight = '';
+      // const active = (block === 'a8' || block === 'b8' || block === 'a1' || block === 'b1') ? 'active' : '';
+      // const highlight = (block === 'b7' || block === 'c7' || block === 'b2' || block === 'c2') ? 'highlight' : '';
       const color = position[block].light ? 'light' : 'dark';
       const className = `board-square ${color}-square ${block} ${highlight} ${active}`;
       const piece = position[block].piece;
       td.push(
         <td className={className} style={style} key={block}>
-          <span className="highlight"></span>
-          {this.renderPiece(piece, square)}
+          <button className="chess-block-hit"
+            onMouseDown={this.onSquareDown.bind(this)}
+            data-block={block}>
+            {this.renderPiece(piece, square)}
+          </button>
         </td>
       );
     }
@@ -103,8 +108,28 @@ class ChessBoard extends Component {
   renderPiece(piece, square) {
     const style = { fontSize: `${square * 0.9}px` };
     return (
-      <span className={`chess-piece ${piece}`} style={style} />
+      <span
+        className={`chess-piece ${piece}`}
+        style={style}  />
     );
+  }
+
+  onSquareDown(event) {
+    const block = event.target.getAttribute('data-block');
+    console.log(block);
+    console.log(event.target)
+    window.addEventListener('mouseup', this.onSquareUp, false);
+    event.preventDefault();
+  }
+
+  onSquareUp(event) {
+    console.log('UP')
+    window.removeEventListener('mouseup', this.onSquareUp, false);
+    event.preventDefault();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.onSquareUp, false);
   }
 }
 
