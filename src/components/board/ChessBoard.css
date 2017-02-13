@@ -43,10 +43,18 @@ div.chess-board td.light-square {
   /*background-color: #f5f5dc;*/
 }
 
+div.chess-board td.board-square.dark-square.active {
+  background-color: #ee0;
+}
+
+div.chess-board td.board-square.light-square.active {
+  background-color: #ff0;
+}
+
 div.chess-board td.board-square.dark-square.highlight {
-  background-color: #9cf;
+  background-color: #eeb;
 }
 
 div.chess-board td.board-square.light-square.highlight {
-  background-color: #ff0;
+  background-color: #ffc;
 }
