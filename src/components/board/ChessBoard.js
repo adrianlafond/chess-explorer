@@ -92,10 +92,10 @@ class ChessBoard extends Component {
     const td = [];
     for (let i = 0; i < 8; i++) {
       const block = `${LETTERS[i]}${row}`;
-      const active = '';
       const highlight = '';
       // const active = (block === 'a8' || block === 'b8' || block === 'a1' || block === 'b1') ? 'active' : '';
       // const highlight = (block === 'b7' || block === 'c7' || block === 'b2' || block === 'c2') ? 'highlight' : '';
+      const active = position[block].active ? 'active' : '';
       const color = position[block].light ? 'light' : 'dark';
       const className = `board-square ${color}-square ${block} ${highlight} ${active}`;
       const piece = position[block].piece;
@@ -124,9 +124,11 @@ class ChessBoard extends Component {
   }
 
   onSquareDown(event) {
-    const block = event.target.getAttribute('data-block');
-    console.log(block);
+    const square = event.target.getAttribute('data-block');
+    console.log(square);
     this.setState({ active: true });
+    const position = this.props.position;
+    this.props.onAction({ square, position });
     window.addEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
   }
@@ -160,7 +162,8 @@ class ChessBoard extends Component {
 ChessBoard.propTypes = {
   size: PropTypes.number,
   theme: PropTypes.string,
-  position: PropTypes.object
+  position: PropTypes.object,
+  onAction: PropTypes.func.isRequired,
 };
 
 ChessBoard.defaultProps = {
