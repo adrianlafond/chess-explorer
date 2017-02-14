@@ -8,6 +8,13 @@ const NUMBERS = [8, 7, 6, 5, 4, 3, 2, 1];
 
 class ChessBoard extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      active: false
+    };
+  }
+
   render() {
     const { size, theme } = this.props;
     const gutterIdeal = size / 18;
@@ -96,6 +103,8 @@ class ChessBoard extends Component {
         <td className={className} style={style} key={block}>
           <button className="chess-block-hit"
             onMouseDown={this.onSquareDown.bind(this)}
+            onMouseEnter={this.onSquareEnter.bind(this)}
+            onMouseLeave={this.onSquareLeave.bind(this)}
             data-block={block}>
             {this.renderPiece(piece, square)}
           </button>
@@ -117,14 +126,29 @@ class ChessBoard extends Component {
   onSquareDown(event) {
     const block = event.target.getAttribute('data-block');
     console.log(block);
-    console.log(event.target)
-    window.addEventListener('mouseup', this.onSquareUp, false);
+    this.setState({ active: true });
+    window.addEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
+  }
+
+  onSquareEnter(event) {
+    if (this.state.active) {
+      const block = event.target.getAttribute('data-block');
+      console.log('mouse:enter:', block);
+    }
+  }
+
+  onSquareLeave(event) {
+    if (this.state.active) {
+      const block = event.target.getAttribute('data-block');
+      console.log('mouse:leave:', block);
+    }
   }
 
   onSquareUp(event) {
     console.log('UP')
-    window.removeEventListener('mouseup', this.onSquareUp, false);
+    this.setState({ active: false });
+    window.removeEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
   }
 
