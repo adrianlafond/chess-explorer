@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './reducers';
+
 import ChessBoard from './components/board/ChessBoard';
 import chessAction from './chess/action';
 import positionStandard from './chess/position-standard';
 import './App.css';
 import './chess/pieces.css';
+
+const store = createStore(reducer);
 
 class App extends Component {
 
@@ -15,7 +21,6 @@ class App extends Component {
   }
 
   render() {
-    console.log('render()')
     const { position } = this.state;
     const board = {
       size: 540,
@@ -24,9 +29,9 @@ class App extends Component {
       onAction: this.onChessBoardAction.bind(this)
     };
     return (
-      <div className="app">
+      <Provider className="app" store={store}>
         <ChessBoard {...board} />
-      </div>
+      </Provider>
     );
   }
 

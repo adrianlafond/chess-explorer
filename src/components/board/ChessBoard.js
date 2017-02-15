@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import board from '../../chess/board';
 import './ChessBoard.css';
 import './themes/tournament.css';
@@ -16,6 +17,7 @@ class ChessBoard extends Component {
   }
 
   render() {
+    console.log(this.props);
     const { size, theme } = this.props;
     const gutterIdeal = size / 18;
     const gutter = (gutterIdeal < 12) ? 0 : gutterIdeal;
@@ -172,4 +174,4 @@ ChessBoard.defaultProps = {
   position: board
 };
 
-export default ChessBoard;
+export default connect()(ChessBoard);
