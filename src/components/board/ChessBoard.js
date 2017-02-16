@@ -1,5 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import {
+  startSquare,
+  enterSquare,
+  exitSquare,
+  completeSquare,
+} from '../../actions';
 import board from '../../chess/board';
 import './ChessBoard.css';
 import './themes/tournament.css';
@@ -17,7 +23,6 @@ class ChessBoard extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { size, theme } = this.props;
     const gutterIdeal = size / 18;
     const gutter = (gutterIdeal < 12) ? 0 : gutterIdeal;
@@ -127,33 +132,36 @@ class ChessBoard extends Component {
 
   onSquareDown(event) {
     const square = event.target.getAttribute('data-block');
-    console.log(square);
     this.setState({ active: true });
-    const position = this.props.position;
-    this.props.onAction({ square, position });
+    // const position = this.props.position;
+    // this.props.onAction({ square, position });
+    this.props.dispatch(startSquare(square));
     window.addEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
   }
 
   onSquareEnter(event) {
     if (this.state.active) {
-      const block = event.target.getAttribute('data-block');
-      console.log('mouse:enter:', block);
+      const square = event.target.getAttribute('data-block');
+      this.props.dispatch(enterSquare(square));
+      // console.log('mouse:enter:', block);
     }
   }
 
   onSquareLeave(event) {
     if (this.state.active) {
-      const block = event.target.getAttribute('data-block');
-      console.log('mouse:leave:', block);
+      const square = event.target.getAttribute('data-block');
+      this.props.dispatch(exitSquare(square));
+      // console.log('mouse:leave:', block);
     }
   }
 
   onSquareUp(event) {
-    console.log('UP')
+    // console.log('UP')
     this.setState({ active: false });
     window.removeEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
+    this.props.dispatch(completeSquare());
   }
 
   componentWillUnmount() {
@@ -165,7 +173,7 @@ ChessBoard.propTypes = {
   size: PropTypes.number,
   theme: PropTypes.string,
   position: PropTypes.object,
-  onAction: PropTypes.func.isRequired,
+  // onAction: PropTypes.func.isRequired,
 };
 
 ChessBoard.defaultProps = {

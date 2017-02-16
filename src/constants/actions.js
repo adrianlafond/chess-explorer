@@ -1,1 +1,6 @@
 export const CREATE_GAME = 'CREATE_GAME';
+
+export const START_SQUARE = 'START_SQUARE';
+export const ENTER_SQUARE = 'ENTER_SQUARE';
+export const EXIT_SQUARE = 'EXIT_SQUARE';
+export const COMPLETE_SQUARE = 'COMPLETE_SQUARE';
