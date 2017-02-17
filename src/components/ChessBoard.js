@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import {
   startSquare,
   enterSquare,
   exitSquare,
   completeSquare,
-} from '../../actions';
-import board from '../../chess/board';
+} from '../actions';
 import './ChessBoard.css';
 import './themes/tournament.css';
 
@@ -95,17 +93,15 @@ class ChessBoard extends Component {
   renderSquares(square, rowIndex) {
     const style = { width: `${square}px`, height: `${square}px` };
     const row = 8 - rowIndex;
-    const position = this.props.position;
+    const position = this.props.game ? this.props.game.position : null;
     const td = [];
     for (let i = 0; i < 8; i++) {
+      const color = getSquareColor(7 - rowIndex, i);
       const block = `${LETTERS[i]}${row}`;
       const highlight = '';
-      // const active = (block === 'a8' || block === 'b8' || block === 'a1' || block === 'b1') ? 'active' : '';
-      // const highlight = (block === 'b7' || block === 'c7' || block === 'b2' || block === 'c2') ? 'highlight' : '';
-      const active = position[block].active ? 'active' : '';
-      const color = position[block].light ? 'light' : 'dark';
+      const active = (position && position[block].active) ? 'active' : '';
       const className = `board-square ${color}-square ${block} ${highlight} ${active}`;
-      const piece = position[block].piece;
+      const piece = position ? position[block].piece : null;
       td.push(
         <td className={className} style={style} key={block}>
           <button className="chess-block-hit"
@@ -179,7 +175,13 @@ ChessBoard.propTypes = {
 ChessBoard.defaultProps = {
   size: 480,
   theme: null,
-  position: board
 };
 
-export default connect()(ChessBoard);
+function getSquareColor(row, col) {
+  if (row % 2 === 0) {
+    return (col % 2 === 0) ? 'dark' : 'light';
+  }
+  return (col % 2 === 0) ? 'light' : 'dark';
+}
+
+export default ChessBoard

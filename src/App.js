@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
-
-import ChessBoard from './components/board/ChessBoard';
-// import chessAction from './chess/action';
-import positionStandard from './chess/position-standard';
+import { connect } from 'react-redux';
+import { createGame } from './actions';
+import ChessBoard from './components/ChessBoard';
 import './App.css';
 import './chess/pieces.css';
 
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      position: positionStandard,
-    };
+  componentWillMount() {
+    this.props.dispatch(createGame());
   }
 
   render() {
-    const { position } = this.state;
+    const { dispatch, games } = this.props;
     const board = {
       size: 540,
       // theme: 'theme-tournament',
-      position,
+      dispatch,
+      game: games[0]
     };
     return (
       <div className="app">
@@ -35,4 +32,6 @@ class App extends Component {
   // }
 }
 
-export default App;
+const mapStateToProps = (state, props) => ({...state});
+
+export default connect(mapStateToProps)(App);

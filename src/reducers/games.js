@@ -1,10 +1,17 @@
+import Immutable from 'seamless-immutable';
 import * as type from '../constants/actions';
+import positionStandard from '../chess/position-standard';
 
-const games = [];
+const base = Immutable([]);
 
-export default (state = games, action) => {
+export default (state = base, action) => {
   switch (action.type) {
     case type.CREATE_GAME:
+      const id = gameUid();
+      state = state.setIn([state.length], {
+        id,
+        position: positionStandard
+      });
       break;
     case type.START_SQUARE:
     case type.ENTER_SQUARE:
@@ -16,4 +23,9 @@ export default (state = games, action) => {
       break;
   }
   return state;
+}
+
+let _gameUid = 0;
+function gameUid() {
+  return 'game-' + _gameUid++;
 }

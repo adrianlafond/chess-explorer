@@ -1,4 +1,4 @@
-import Immutable from 'seamless-immutable';
+import merge from 'lodash.merge';
 import {
   WHITE_KING,
   WHITE_QUEEN,
@@ -13,7 +13,7 @@ import {
   BLACK_KNIGHT,
   BLACK_PAWN,
 } from './pieces';
-import board from './board';
+import position from './position';
 
 const standard = {
   a1: { piece: WHITE_ROOK },
@@ -50,4 +50,4 @@ const standard = {
   h8: { piece: BLACK_ROOK },
 };
 
-export default Immutable.merge(board, standard, { deep: true });
+export default merge({}, position, standard, { deep: true });
