@@ -98,7 +98,7 @@ class ChessBoard extends Component {
     for (let i = 0; i < 8; i++) {
       const color = getSquareColor(7 - rowIndex, i);
       const block = `${LETTERS[i]}${row}`;
-      const highlight = '';
+      const highlight = (position && position[block].highlight) ? 'highlight' : '';
       const active = (position && position[block].active) ? 'active' : '';
       const className = `board-square ${color}-square ${block} ${highlight} ${active}`;
       const piece = position ? position[block].piece : null;
@@ -127,37 +127,40 @@ class ChessBoard extends Component {
   }
 
   onSquareDown(event) {
+    const { dispatch, game } = this.props;
     const square = event.target.getAttribute('data-block');
     this.setState({ active: true });
     // const position = this.props.position;
     // this.props.onAction({ square, position });
-    this.props.dispatch(startSquare(square));
+    dispatch(startSquare(game.id, square));
     window.addEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
   }
 
   onSquareEnter(event) {
     if (this.state.active) {
+      const { dispatch, game } = this.props;
       const square = event.target.getAttribute('data-block');
-      this.props.dispatch(enterSquare(square));
-      // console.log('mouse:enter:', block);
+      dispatch(enterSquare(game.id, square));
     }
   }
 
   onSquareLeave(event) {
     if (this.state.active) {
+      const { dispatch, game } = this.props;
       const square = event.target.getAttribute('data-block');
-      this.props.dispatch(exitSquare(square));
+      dispatch(exitSquare(game.id, square));
       // console.log('mouse:leave:', block);
     }
   }
 
   onSquareUp(event) {
     // console.log('UP')
+    const { dispatch, game } = this.props;
     this.setState({ active: false });
     window.removeEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
-    this.props.dispatch(completeSquare());
+    dispatch(completeSquare(game.id));
   }
 
   componentWillUnmount() {

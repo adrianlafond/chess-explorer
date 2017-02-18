@@ -17,12 +17,37 @@ export default (state = base, action) => {
     case type.ENTER_SQUARE:
     case type.EXIT_SQUARE:
     case type.COMPLETE_SQUARE:
-      console.log(action.type, action.square || '-');
+      return actionReducer(state, action);
+    default:
+      break;
+  }
+  return state;
+}
+
+function actionReducer(state, action) {
+  const index = gameIndexById(state, action.game);
+  switch (action.type) {
+    case type.START_SQUARE:
+      return state.setIn([index, 'position', action.square, 'active'], true);
+    case type.ENTER_SQUARE:
+      return state.setIn([index, 'position', action.square, 'highlight'], true);
+    case type.EXIT_SQUARE:
+      return state.setIn([index, 'position', action.square, 'highlight'], false);
+    case type.COMPLETE_SQUARE:
       break;
     default:
       break;
   }
   return state;
+}
+
+function gameIndexById(state, id) {
+  for (let i = 0; i < state.length; i++) {
+    if (state[i].id === id) {
+      return i;
+    }
+  }
+  return -1;
 }
 
 let _gameUid = 0;
