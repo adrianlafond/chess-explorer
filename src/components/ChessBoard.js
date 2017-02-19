@@ -145,9 +145,11 @@ class ChessBoard extends Component {
         height: px,
       };
       return (
-        <div
-          className={`chess-piece active-piece ${piece}`}
-          style={style}  />
+        <button className="chess-block-hit">
+          <span
+            className={`chess-piece active-piece ${piece}`}
+            style={style}  />
+        </button>
       );
     }
     return null;
@@ -198,10 +200,14 @@ class ChessBoard extends Component {
   }
 
   onPieceMove(event) {
-    const piece = ReactDOM.findDOMNode(this).querySelector('.active-piece');
+    const board = ReactDOM.findDOMNode(this);
+    const piece = board.querySelector('.active-piece');
     if (piece) {
-      piece.style.left = (drag.clientX(event) + this.state.offsetX) + 'px';
-      piece.style.top = (drag.clientY(event) + this.state.offsetY) + 'px';
+      const boardRect = board.getBoundingClientRect();
+      piece.style.left = (drag.clientX(event) + this.state.offsetX -
+        boardRect.left) + 'px';
+      piece.style.top = (drag.clientY(event) + this.state.offsetY -
+        boardRect.top) + 'px';
     }
   }
 
