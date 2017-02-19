@@ -10,7 +10,7 @@ export default (state = base, action) => {
       const id = gameUid();
       state = state.setIn([state.length], {
         id,
-        position: positionStandard
+        position: positionStandard,
       });
       break;
     case type.START_SQUARE:

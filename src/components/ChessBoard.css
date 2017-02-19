@@ -69,3 +69,7 @@ div.chess-board .chess-block-hit {
   /*background-color: rgba(255, 0, 0, 0.1);*/
   background-color: transparent;
 }
+
+div.chess-board .active-piece {
+  position: absolute;
+}

@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import {
   startSquare,
   enterSquare,
   exitSquare,
   completeSquare,
 } from '../actions';
+import * as drag from './util/drag';
 import './ChessBoard.css';
 import './themes/tournament.css';
 
@@ -16,7 +18,10 @@ class ChessBoard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      active: false
+      active: false,
+      offsetX: 0,
+      offsetY: 0,
+      activePiece: null,
     };
   }
 
@@ -38,6 +43,7 @@ class ChessBoard extends Component {
             {this.renderRows(gutter, square)}
           </tbody>
         </table>
+        {this.renderDragPiece(square)}
       </div>
     );
   }
@@ -109,7 +115,7 @@ class ChessBoard extends Component {
             onMouseEnter={this.onSquareEnter.bind(this)}
             onMouseLeave={this.onSquareLeave.bind(this)}
             data-block={block}>
-            {this.renderPiece(piece, square)}
+            {this.renderPiece(piece, square, !!active)}
           </button>
         </td>
       );
@@ -117,24 +123,54 @@ class ChessBoard extends Component {
     return td;
   }
 
-  renderPiece(piece, square) {
-    const style = { fontSize: `${square * 0.9}px` };
-    return (
-      <span
-        className={`chess-piece ${piece}`}
-        style={style}  />
-    );
+  renderPiece(piece, square, active) {
+    if (piece && !active) {
+      const style = { fontSize: `${square * 0.9}px` };
+      return (
+        <span
+          className={`chess-piece ${piece}`}
+          style={style}  />
+      );
+    }
+    return null;
+  }
+
+  renderDragPiece(square) {
+    const { activePiece: piece } = this.state;
+    if (piece) {
+      const px = `${square * 0.9}px`;
+      const style = {
+        fontSize: px,
+        width: px,
+        height: px,
+      };
+      return (
+        <div
+          className={`chess-piece active-piece ${piece}`}
+          style={style}  />
+      );
+    }
+    return null;
   }
 
   onSquareDown(event) {
     const { dispatch, game } = this.props;
     const square = event.target.getAttribute('data-block');
-    this.setState({ active: true });
-    // const position = this.props.position;
-    // this.props.onAction({ square, position });
+    const squrareRect = event.target.getBoundingClientRect();
+    const activePiece = game.position[square].piece;
+    if (activePiece) {
+      this.setState({
+        active: true,
+        offsetX: squrareRect.left - drag.clientX(event),
+        offsetY: squrareRect.top - drag.clientY(event),
+        activePiece,
+      });
+    }
     dispatch(startSquare(game.id, square));
+    window.addEventListener('mousemove', this.onPieceMove.bind(this), false);
     window.addEventListener('mouseup', this.onSquareUp.bind(this), false);
     event.preventDefault();
+    this.onPieceMove(event);
   }
 
   onSquareEnter(event) {
@@ -150,20 +186,31 @@ class ChessBoard extends Component {
       const { dispatch, game } = this.props;
       const square = event.target.getAttribute('data-block');
       dispatch(exitSquare(game.id, square));
-      // console.log('mouse:leave:', block);
     }
   }
 
   onSquareUp(event) {
-    // console.log('UP')
     const { dispatch, game } = this.props;
-    this.setState({ active: false });
-    window.removeEventListener('mouseup', this.onSquareUp.bind(this), false);
+    this.setState({ active: false, activePiece: false });
+    this.removeMoveListeners();
     event.preventDefault();
     dispatch(completeSquare(game.id));
   }
 
+  onPieceMove(event) {
+    const piece = ReactDOM.findDOMNode(this).querySelector('.active-piece');
+    if (piece) {
+      piece.style.left = (drag.clientX(event) + this.state.offsetX) + 'px';
+      piece.style.top = (drag.clientY(event) + this.state.offsetY) + 'px';
+    }
+  }
+
   componentWillUnmount() {
+    this.removeMoveListeners();
+  }
+
+  removeMoveListeners() {
+    window.removeEventListener('mousemove', this.onPieceMove.bind(this), false);
     window.removeEventListener('mouseup', this.onSquareUp, false);
   }
 }
